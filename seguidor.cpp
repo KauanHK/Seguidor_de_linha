@@ -100,12 +100,13 @@ void ledControl(bool status, long runtime) {
 void readSensors(int *sensors) {
   // Função para leitura dos sensores
     
-  *sensors = (analogRead(S1) < TRESHOLD) << 5 |
-                (analogRead(S2) < TRESHOLD) << 4 |
-                (analogRead(S3) < TRESHOLD) << 3 |
-                (analogRead(S4) < TRESHOLD) << 2 |
-                (analogRead(S5) < TRESHOLD) << 1 |
-                (analogRead(S6) < TRESHOLD);
+  bool s1 = analogRead(S1) < TRESHOLD;
+  bool s2 = analogRead(S2) < TRESHOLD;
+  bool s3 = analogRead(S3) < TRESHOLD;
+  bool s4 = analogRead(S4) < TRESHOLD;
+  bool s5 = analogRead(S5) < TRESHOLD;
+  bool s6 = analogRead(S6) < TRESHOLD;
+  *sensors = (s1) << 5 | (s2) << 4 | (s3) << 3 | (s4) << 2 | (s5) << 1 | (s6);
     
 }
 
