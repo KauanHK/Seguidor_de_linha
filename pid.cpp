@@ -50,7 +50,7 @@ float Kp = 10,
       I = 0,
       D = 0,
       PID_value = 0,
-      previous_error = 0,
+      previous_error = 0;
 
 int sensor[6] = {0, 0, 0, 0, 0, 0};
 int initial_motor_speed = 100;
