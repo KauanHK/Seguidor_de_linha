@@ -75,11 +75,9 @@ void loop(){
 
     long stopTime = millis() + RUNTIME;
     while (motorStop(stopTime)){
-
-        if (read_sensor_values()){
-            calculate_pid();
-            motor_control_pid();
-        }
+        read_sensor_values();
+        calculate_pid();
+        motor_control_pid();
     }
     motorOption('0', 0, 0);
 }
@@ -165,8 +163,7 @@ bool motorStop(long stopTime){
     return true;
 }
 
-// Retorna false caso esteja perfeito na linha (leitura 001100), senão true
-bool read_sensor_values(){
+void read_sensor_values(){
 
     bool s1 = analogRead(SENSOR1) <= TRESHOLD,
          s2 = analogRead(SENSOR2) <= TRESHOLD,
@@ -182,8 +179,8 @@ bool read_sensor_values(){
         case 0b000000:
         case 0b011110:
         case 0b001100:
-            motorControl(SPEED0, -SPEED0);
-            return false;
+            P = 0;
+            break;
         case 0b001000:
             P = -1;
             break;
@@ -232,13 +229,14 @@ void calculate_pid(){
 
     PID_value = (Kp * P) + (Ki * I) + (Kd * D);
     previous_error = P;
+
 }
 
 
 // controla os motores conforme valor do PID
 void motor_control_pid(){
     
-    int left_motor_speed = initial_motor_speed - PID_value;
+    int left_motor_speed = - initial_motor_speed - PID_value;
     int right_motor_speed = initial_motor_speed + PID_value;
 
     left_motor_speed = constrain(left_motor_speed, 0, 255);
@@ -249,6 +247,15 @@ void motor_control_pid(){
     Serial.print(" ");
     Serial.print("Motor direita: ");
     Serial.println(right_motor_speed);
+
+    Serial.print("P = ");
+    Serial.println(P);
+    Serial.print("I = ");
+    Serial.println(I);
+    Serial.print("D = ");
+    Serial.println(D);
+    Serial.print("PID_value = ");
+    Serial.println(PID_value);
    
     motorControl(left_motor_speed, right_motor_speed);
 }
