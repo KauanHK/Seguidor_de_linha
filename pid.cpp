@@ -223,16 +223,18 @@ bool read_sensor_values(){
     return true;
 }
 
-// calcula PID conforme o error.
 void calculate_pid(){
-    I = I + previous_I;
+
+    // Acumula o erro
+    I += P;
+
+    // Diferença entre o erro atual e o anterior
     D = P - previous_error;
 
     PID_value = (Kp * P) + (Ki * I) + (Kd * D);
-
-    previous_I = I;
     previous_error = P;
 }
+
 
 // controla os motores conforme valor do PID
 void motor_control_pid(){
