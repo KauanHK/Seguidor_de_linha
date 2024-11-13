@@ -43,9 +43,9 @@
 #define PARAR '0'
 
 // Dados para PID
-float Kp = 10,
-      Ki = 0,
-      Kd = 0,
+float Kp = 2,
+      Ki = 0.05,
+      Kd = 0.5,
       P = 0,
       I = 0,
       D = 0,
